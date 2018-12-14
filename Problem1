@@ -1,0 +1,188 @@
+package com.test;
+
+import java.util.*;
+
+public class Problem1 {
+	
+	private int[] createArrayFromNumber(int number) {
+	    String str = (new Integer(number)).toString();
+	    char[] chArr = str.toCharArray();
+	    int[] arr = new int[chArr.length];
+	    for (int i = 0; i< chArr.length; i++) {
+	        arr[i] = Character.getNumericValue(chArr[i]);
+	    }
+	    return arr;
+	}
+	
+	private int timeForScene(int moves,int timeForMove , int timeForScene) {
+		
+		int time=0;
+		
+		if(moves>0)
+		{
+			if(timeForScene>0)
+			time=moves*timeForMove*timeForScene;
+			else
+				time=moves*timeForMove;
+		}
+		else
+			time=timeForScene;
+		
+		return time;
+		
+	}
+	
+	private int [] arrangeElements(int [] currentPosition) {
+		
+		int i, temp; 
+        temp = currentPosition[0]; 
+        for (i = 0; i < currentPosition.length - 1; i++) 
+        	currentPosition[i] = currentPosition[i + 1]; 
+        currentPosition[i] = temp; 
+		
+		return currentPosition;
+	}
+	
+	private int calculateMoves(int [] currentPosition ,int [] setMapping,int scene) {
+		
+		System.out.println("Scene "+scene);
+		
+		//int desiredState=setMapping[scene];
+		
+		int moves=0;
+		
+		while(currentPosition[scene]!=setMapping[scene]) {
+			
+					
+			currentPosition=arrangeElements(currentPosition);
+			
+			moves=moves+1;
+		}
+		
+		
+		
+		System.out.println("Scene "+scene + " moves "+moves);
+		return moves;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int S=0;
+		int M=0;
+		int Q=0;
+		int P=0;
+		Problem1 pb =new Problem1();
+		Scanner sc = new Scanner(System.in);
+		
+		int []basicValues =new int [4] ;
+		int setMapping[]=null;
+		int [] currentMapping=null;
+		int [] IncrementArr=null;
+		
+		int [] staticList=new int [3];
+		
+		int i=0;
+		
+		for(int k=0;k<3;k++) {
+			
+			staticList[k]= sc.nextInt();
+		}
+		
+				
+		for(int j=0;j<3;j++) {
+			System.out.println(staticList[j]);
+			
+		}
+		
+		basicValues=pb.createArrayFromNumber(staticList[0]);
+		
+		setMapping=pb.createArrayFromNumber(staticList[1]);
+		
+		IncrementArr=pb.createArrayFromNumber(staticList[2]);
+		
+		for(int j=0;j<basicValues.length;j++) {
+			
+			System.out.println("basicValues "+basicValues[j]);
+			
+		}
+for(int j=0;j<IncrementArr.length;j++) {
+			
+			System.out.println("IncrementArr "+IncrementArr[j]);
+			
+		}
+
+for(int j=0;j<setMapping.length;j++) {
+	
+	System.out.println("before setMapping "+setMapping[j]);
+	
+	
+	setMapping[j]=setMapping[j]-1;
+	
+	System.out.println("after setMapping "+setMapping[j]);
+	
+}
+
+ S=basicValues[0];
+ M=basicValues[1];
+ Q=basicValues[3];
+ P=basicValues[2];
+ 
+ System.out.println("Scenes "+S);
+ System.out.println("Sets "+M);
+ System.out.println("Time for Rotation "+Q);
+ System.out.println("Time for Scene "+P);
+ 
+ currentMapping=new int[S];
+ 
+ for(int l=0;l<S;l++) {
+	 
+	 
+	 currentMapping[l]=1001;
+ }
+ 
+ System.out.println("currentMapping.length"+currentMapping.length);
+ 
+ for(int l=0;l<M;l++) {
+	 
+	 int position=IncrementArr[l]-1;
+	 
+	 currentMapping[position]=l;
+	 
+	 
+//	 currentMapping=pb.arrangeElements(IncrementArr[i],currentMapping);
+ 
+ }
+ 
+ for(int l=0;l<currentMapping.length;l++) {
+	 
+	System.out.println("Current scene "+l+" Set" +currentMapping[l]);
+	 
+ }
+
+ for(int l=0;l<setMapping.length;l++) {
+	 
+		System.out.println("desired scene "+l+" Set" +setMapping[l]);
+		 
+	 }
+
+ 
+ int totalTime=0;
+ 
+ for(int l=0;l<currentMapping.length;l++) {
+	 
+ int moves=pb.calculateMoves(currentMapping,setMapping,l);
+ 
+ int time=pb.timeForScene(moves,P,Q);
+ 
+ System.out.println("Time for Scene "+l+" "+time);
+ 
+ totalTime=totalTime+time;
+ 
+ System.out.println("totalTime "+totalTime);
+ 
+ 
+ }
+ 
+}
+}
